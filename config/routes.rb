@@ -5,6 +5,8 @@ Rails.application.routes.draw do
       post '/recipes', to: 'recipes#create'
       get '/recipes/:id', to: 'recipes#show'
       delete '/recipes/:id', to: 'recipes#destroy'
+
+      resources :users
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
