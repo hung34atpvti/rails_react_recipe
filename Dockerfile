@@ -49,6 +49,10 @@ RUN yarn install --frozen-lockfile
 # Copy application code
 COPY --link . .
 
+# Build js and css files
+RUN yarn build
+RUN yarn build:css
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
