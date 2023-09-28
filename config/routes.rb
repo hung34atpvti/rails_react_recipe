@@ -6,6 +6,9 @@ Rails.application.routes.draw do
       get '/recipes/:id', to: 'recipes#show'
       delete '/recipes/:id', to: 'recipes#destroy'
 
+      post '/login', to: 'sessions#create'
+      delete '/logout', to: 'sessions#destroy'
+
       resources :users
     end
   end
