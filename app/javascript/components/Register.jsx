@@ -72,16 +72,15 @@ const Register = () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then(() => navigate("/"))
+      .then(() => navigate("/login"))
       .catch((error) => {
         console.log(error.message);
-        navigate("/");
       });
   };
 
   return (
     <>
-      <div class="d-flex primary-color align-items-center justify-content-center vh-100 wh-100">
+      <div className="d-flex primary-color align-items-center justify-content-center vh-100 wh-100">
         <div className="container secondary-color">
           <div className="row">
             <h1 style={{ textAlign: "center" }} className="display-4 col-md-12">
