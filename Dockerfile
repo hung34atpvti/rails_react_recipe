@@ -52,6 +52,7 @@ COPY --link . .
 # Build js and css files
 RUN yarn build
 RUN yarn build:css
+RUN chmod 777 -R ./public
 
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
