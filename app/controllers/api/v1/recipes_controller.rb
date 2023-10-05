@@ -20,14 +20,14 @@ class Api::V1::RecipesController < ApplicationController
     params = recipe_params
     params[:user_id] = session[:user_id]
 
-    if params[:image].present?
+    if params[:image].present? && params[:image] != "null"
       img_url = save_image_to_server(params[:image])
       if img_url == ""
         return render json: { error: "Failed to save the image" }, status: :unprocessable_entity
       end
       params[:image] = img_url
     end
-
+    params.delete :image
     recipe = Recipe.create!(params)
 
     if recipe
