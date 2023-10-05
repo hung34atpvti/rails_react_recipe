@@ -26,8 +26,9 @@ class Api::V1::RecipesController < ApplicationController
         return render json: { error: "Failed to save the image" }, status: :unprocessable_entity
       end
       params[:image] = img_url
+    else
+      params.delete :image
     end
-    params.delete :image
     recipe = Recipe.create!(params)
 
     if recipe
