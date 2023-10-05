@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ButtonLoadingSpinner from "./ButtonLoadingSpinner";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
@@ -33,6 +35,7 @@ const Login = () => {
   }, [email, password]);
 
   const onSubmit = () => {
+    setIsLoading(true);
     setError("");
     if (!validate()) {
       return;
@@ -53,6 +56,7 @@ const Login = () => {
       body: JSON.stringify(body),
     })
       .then((response) => {
+        setIsLoading(false);
         if (response.ok) {
           return response.json();
         }
@@ -74,6 +78,7 @@ const Login = () => {
         navigate("/");
       })
       .catch((error) => {
+        setIsLoading(false);
         console.log(error.message);
       });
   };
@@ -126,13 +131,18 @@ const Login = () => {
               </div>
               <br />
               <div className="row">
-                <button
-                  className="btn btn-primary col-md-2"
-                  onClick={onSubmit}
-                  disabled={!isValid}
-                >
-                  Login
-                </button>
+                {isLoading ? (
+                  <ButtonLoadingSpinner />
+                ) : (
+                  <button
+                    className="btn btn-primary col-md-2"
+                    onClick={onSubmit}
+                    disabled={!isValid}
+                  >
+                    Login
+                  </button>
+                )}
+
                 <div style={{ textAlign: "right" }} className=" col-md-8">
                   If you don't have an account, please{" "}
                   <span className="bi bi-arrow-right-square"></span>

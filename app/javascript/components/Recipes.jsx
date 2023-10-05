@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import LoadSpinner from "./LoadSpinner";
 
 const Recipes = () => {
   const navigate = useNavigate();
   const [myRecipes, setMyRecipes] = useState([]);
   const [otherRecipes, setOtherRecipes] = useState([]);
+  const [isLoadingMyRecipes, setIsLoadingMyRecipes] = useState(true);
+  const [isLoadingOtherRecipes, setIsLoadingOtherRecipes] = useState(true);
 
   useEffect(() => {
     const myRecipesUrl = "/api/v1/recipes-my";
@@ -16,7 +19,10 @@ const Recipes = () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((res) => setMyRecipes(res))
+      .then((res) => {
+        setMyRecipes(res);
+        setIsLoadingMyRecipes(false);
+      })
       .catch(() => navigate("/"));
     fetch(otherRecipesUrl)
       .then((res) => {
@@ -25,7 +31,10 @@ const Recipes = () => {
         }
         throw new Error("Network response was not ok.");
       })
-      .then((res) => setOtherRecipes(res))
+      .then((res) => {
+        setOtherRecipes(res);
+        setIsLoadingOtherRecipes(false);
+      })
       .catch(() => navigate("/"));
   }, []);
 
@@ -67,16 +76,15 @@ const Recipes = () => {
   const noRecipe = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
       <h4>
-        You don't have any recipes. Why not <Link to="/recipe/new">create one</Link>
+        You don't have any recipes. Why not{" "}
+        <Link to="/recipe/new">create one</Link>
       </h4>
     </div>
   );
 
   const noRecipeOther = (
     <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
-      <h4>
-        No recipes yet.
-      </h4>
+      <h4>No recipes yet.</h4>
     </div>
   );
 
@@ -101,11 +109,19 @@ const Recipes = () => {
           </div>
           <div className="row">
             <h2 className="display-4">My Recipes</h2>
-            {myRecipes.length > 0 ? myRecipesHtml : noRecipe}
+            {isLoadingMyRecipes ? (
+              <LoadSpinner padding="30px" />
+            ) : (
+              <>{myRecipes.length > 0 ? myRecipesHtml : noRecipe}</>
+            )}
           </div>
           <div className="row">
             <h2 className="display-4">Other</h2>
-            {otherRecipes.length > 0 ? otherRecipesHtml : noRecipeOther}
+            {isLoadingOtherRecipes ? (
+              <LoadSpinner padding="30px" />
+            ) : (
+              <>{otherRecipes.length > 0 ? otherRecipesHtml : noRecipeOther}</>
+            )}
           </div>
           <Link to="/" className="btn btn-link">
             Home
