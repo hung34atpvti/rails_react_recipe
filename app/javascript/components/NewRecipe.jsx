@@ -43,7 +43,9 @@ const NewRecipe = () => {
     formData.append("name", name);
     formData.append("ingredients", ingredients);
     formData.append("instruction", stripHtmlEntities(instruction));
-    formData.append("image", image);
+    if (image) {
+      formData.append("image", image);
+    }
 
     const token = document.querySelector('meta[name="csrf-token"]').content;
     fetch(url, {
