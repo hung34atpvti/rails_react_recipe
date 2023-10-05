@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ButtonLoadingSpinner from "./ButtonLoadingSpinner";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -7,6 +8,7 @@ const Register = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [error, setError] = useState("");
   const [isValid, setIsValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +53,7 @@ const Register = () => {
   };
 
   const onSubmit = () => {
+    setIsLoading(true);
     const url = "/api/v1/users";
     const body = {
       email,
@@ -67,6 +70,7 @@ const Register = () => {
       body: JSON.stringify(body),
     })
       .then((response) => {
+        setIsLoading(false);
         if (response.ok) {
           return response.json();
         }
@@ -74,6 +78,7 @@ const Register = () => {
       })
       .then(() => navigate("/login"))
       .catch((error) => {
+        setIsLoading(false);
         console.log(error.message);
       });
   };
@@ -132,13 +137,17 @@ const Register = () => {
                 {error}
               </div>
               <br />
-              <button
-                className="btn btn-primary"
-                onClick={onSubmit}
-                disabled={!isValid}
-              >
-                Register
-              </button>
+              {isLoading ? (
+                <ButtonLoadingSpinner />
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  onClick={onSubmit}
+                  disabled={!isValid}
+                >
+                  Register
+                </button>
+              )}
             </div>
             <div className="col-md-3"></div>
           </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import ButtonLoadingSpinner from "./ButtonLoadingSpinner";
 
 const NewRecipe = () => {
   const navigate = useNavigate();
@@ -7,6 +8,7 @@ const NewRecipe = () => {
   const [ingredients, setIngredients] = useState("");
   const [instruction, setInstruction] = useState("");
   const [image, setImage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const stripHtmlEntities = (str) => {
     return String(str)
@@ -25,6 +27,7 @@ const NewRecipe = () => {
   };
 
   const onSubmit = (event) => {
+    setIsLoading(true);
     event.preventDefault();
     const url = "/api/v1/recipes";
 
@@ -51,13 +54,17 @@ const NewRecipe = () => {
       body: formData,
     })
       .then((response) => {
+        setIsLoading(false);
         if (response.ok) {
           return response.json();
         }
         throw new Error("Network response was not ok.");
       })
       .then((response) => navigate(`/recipe/${response.id}`))
-      .catch((error) => console.log(error.message));
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error.message);
+      });
   };
 
   return (
@@ -113,9 +120,14 @@ const NewRecipe = () => {
                 onChange={onImageChange}
               />
             </div>
-            <button type="submit" className="btn custom-button mt-3">
-              Create Recipe
-            </button>
+            {isLoading ? (
+              <ButtonLoadingSpinner />
+            ) : (
+              <button type="submit" className="btn custom-button mt-3">
+                Create Recipe
+              </button>
+            )}
+
             <Link to="/recipes" className="btn btn-link mt-3">
               Back to recipes
             </Link>
