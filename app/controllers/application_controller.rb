@@ -39,8 +39,6 @@ class ApplicationController < ActionController::Base
   def authorization
     current_role = session[:user_role]
     current_action = detect_action
-    Rails.logger.info("current_role #{current_role}")
-    Rails.logger.info("current_action #{current_action}")
     if current_action == 'unknown'
       return render json: { message: 'No permission' }, status: 403
     end
@@ -52,8 +50,6 @@ class ApplicationController < ActionController::Base
   private
 
   def detect_action
-    Rails.logger.info("request.method #{request.method}")
-    Rails.logger.info("request.path #{request.path}")
     HTTP_METHOD_TO_ACTION[request.method].each do |pattern, action|
       return action if request.path.match?(pattern)
     end
