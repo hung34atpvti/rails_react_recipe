@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_04_041220) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_09_090135) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "btree_gist"
@@ -51,6 +51,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_04_041220) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role", default: 0
+    t.index ["role"], name: "index_users_on_role"
   end
 
   add_foreign_key "recipes", "users"

@@ -72,8 +72,10 @@ const Login = () => {
           setError(data.message);
           return;
         }
+        console.log(data.user)
         sessionStorage.setItem("userId", data.user.id);
         sessionStorage.setItem("userEmail", data.user.email);
+        sessionStorage.setItem("userRole", data.user.role);
         sessionStorage.setItem("userExpired", Date.now() + 15 * 60 * 1000);
         navigate("/");
       })
