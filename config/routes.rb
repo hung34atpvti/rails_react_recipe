@@ -2,8 +2,8 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get '/recipes', to: 'recipes#index'
-      get '/recipes-my', to: 'recipes#my' 
-      get '/recipes-other', to: 'recipes#other' 
+      get '/recipes-my', to: 'recipes#my'
+      get '/recipes-other', to: 'recipes#other'
       post '/recipes', to: 'recipes#create'
       get '/recipes/:id', to: 'recipes#show'
       delete '/recipes/:id', to: 'recipes#destroy'

@@ -34,7 +34,7 @@ const Header = () => {
         <div className="container-fluid">
           <div className="col-md-4">
             <span className="navbar-text">
-              Welcome, <b>{sessionStorage.getItem("userEmail")}</b>
+              Welcome, <b>{sessionStorage.getItem("userEmail")}</b> {`(${sessionStorage.getItem("userRole")})`}
             </span>
           </div>
           <div className="col-md-6"></div>

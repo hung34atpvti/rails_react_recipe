@@ -1,5 +1,6 @@
 class Api::V1::RecipesController < ApplicationController
   before_action :set_recipe, only: %i[show destroy]
+  before_action :authorization
 
   def index
     recipe = Recipe.all.order(created_at: :desc)
